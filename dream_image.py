@@ -30,22 +30,22 @@ from deepdreamer import model, load_image, recursive_optimize
 import numpy as np
 import PIL.Image
 
-for i in range(1, 12):
-    layer_tensor = model.layer_tensors[i]
-    file_name = "the-starry-night/the-starry-night-800x450.jpg"
-    img_result = load_image(filename='{}'.format(file_name))
 
-    img_result = recursive_optimize(layer_tensor=layer_tensor, image=img_result,
-                     # how clear is the dream vs original image
-                     num_iterations=40, step_size=1.0, rescale_factor=0.5,
-                     # How many "passes" over the data. More passes, the more granular the gradients will be.
-                     num_repeats=2, blend=0.2)
+layer_tensor = model.layer_tensors[3]
+file_name = "the-starry-night/the-starry-night-800x450.jpg"
+img_result = load_image(filename='{}'.format(file_name))
 
-    img_result = np.clip(img_result, 0.0, 255.0)
-    img_result = img_result.astype(np.uint8)
-    result = PIL.Image.fromarray(img_result, mode='RGB')
-    result.save('dream_image_out_layer_{}.jpg'.format(i))
-    # result.show()
+img_result = recursive_optimize(layer_tensor=layer_tensor, image=img_result,
+				 # how clear is the dream vs original image
+				 num_iterations=40, step_size=1.0, rescale_factor=0.5,
+				 # How many "passes" over the data. More passes, the more granular the gradients will be.
+				 num_repeats=2, blend=0.2)
+
+img_result = np.clip(img_result, 0.0, 255.0)
+img_result = img_result.astype(np.uint8)
+result = PIL.Image.fromarray(img_result, mode='RGB')
+result.save('dream_image_out_layer_{}.jpg'.format(i))
+# result.show()
 
 
 
